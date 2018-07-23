@@ -5,6 +5,7 @@ alert("Im working!");
 //GLOBAL VARS==========================================================//
 var csvFile     = document.querySelector(".csvFile");
 var csvParse    = document.querySelector(".csvParse");
+var csvData     = {shopifyData:"", userData:""};
 
 csvFile.addEventListener("change", handleFiles, false);
 
@@ -16,8 +17,9 @@ csvFile.addEventListener("change", handleFiles, false);
     //Parse User's CSV into JSON
     Papa.parse(csvFile.files[0], {
       download: true,
-      complete: function(results,file){
-        console.log(results,file);
+      complete: function(results){
+        console.log(results);
+        csvData.userData = results.data;
       }
     });
 
@@ -26,11 +28,13 @@ csvFile.addEventListener("change", handleFiles, false);
       download: true,
       complete: function(results){
         console.log(results);
+        csvData.shopifyData = results.data;
       }
     });
-
+    return csvData;
   }
-
+  console.log(csvData);
+  
   //Converts template csv into shopify default csv
   csvParse.addEventListener("click", shopifyParse, false);
 
